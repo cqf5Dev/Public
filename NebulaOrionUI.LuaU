@@ -1,7 +1,7 @@
 -- Please use in Nebula Design (English)
 --[[
-    Goldenite GUI Library - Nebula Edition
-    A modern, feature-rich UI library for Roblox exploiting
+    Goldenite GUI Library - Nebula Dark Edition
+    A sleek, modern UI library with an enhanced dark theme
 --]]
 
 local UserInputService = game:GetService("UserInputService")
@@ -18,15 +18,15 @@ local GoldeniteLib = {
     Flags = {},
     Themes = {
         Default = {
-            Main = Color3.fromRGB(20, 20, 25),
-            Second = Color3.fromRGB(28, 28, 35),
-            Stroke = Color3.fromRGB(50, 50, 60),
-            Divider = Color3.fromRGB(45, 45, 55),
-            Text = Color3.fromRGB(255, 255, 255),
-            TextDark = Color3.fromRGB(160, 160, 170),
-            Gold = Color3.fromRGB(255, 200, 0),
-            GoldLight = Color3.fromRGB(255, 215, 0),
-            GoldDark = Color3.fromRGB(200, 150, 0)
+            Main = Color3.fromRGB(12, 12, 15),      -- Deeper main background
+            Second = Color3.fromRGB(18, 18, 24),    -- Darker secondary
+            Stroke = Color3.fromRGB(30, 30, 38),    -- Subtle borders
+            Divider = Color3.fromRGB(22, 22, 28),   -- Section dividers
+            Text = Color3.fromRGB(245, 245, 255),   -- Crisp white text
+            TextDark = Color3.fromRGB(140, 140, 160), -- Muted text
+            Gold = Color3.fromRGB(255, 180, 60),    -- Warm gold accent
+            GoldLight = Color3.fromRGB(255, 200, 100), -- Brushed gold
+            GoldDark = Color3.fromRGB(180, 120, 30) -- Deep gold
         }
     },
     SelectedTheme = "Default",
@@ -279,10 +279,11 @@ CreateElement("Corner", function(Scale, Offset)
     return Corner
 end)
 
-CreateElement("Stroke", function(Color, Thickness)
+CreateElement("Stroke", function(Color, Thickness, Transparency)
     local Stroke = Create("UIStroke", {
-        Color = Color or Color3.fromRGB(255, 255, 255),
-        Thickness = Thickness or 1
+        Color = Color or Color3.fromRGB(255, 180, 60),
+        Thickness = Thickness or 1,
+        Transparency = Transparency or 0
     })
     return Stroke
 end)
@@ -380,7 +381,7 @@ end)
 CreateElement("Label", function(Text, TextSize, Transparency)
     local Label = Create("TextLabel", {
         Text = Text or "",
-        TextColor3 = Color3.fromRGB(240, 240, 240),
+        TextColor3 = Color3.fromRGB(240, 240, 245),
         TextTransparency = Transparency or 0,
         TextSize = TextSize or 15,
         Font = Enum.Font.Gotham,
@@ -420,18 +421,18 @@ function GoldeniteLib:MakeNotification(NotificationConfig)
             Parent = NotificationHolder
         })
 
-        local NotificationFrame = SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(25, 25, 35), 0, 10), {
+        local NotificationFrame = SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(15, 15, 20), 0, 12), {
             Parent = NotificationParent,
             Size = UDim2.new(1, 0, 0, 0),
             Position = UDim2.new(1, -55, 0, 0),
             BackgroundTransparency = 0,
             AutomaticSize = Enum.AutomaticSize.Y
         }), {
-            MakeElement("Stroke", Color3.fromRGB(255, 200, 0), 1.5),
+            MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1.5),
             MakeElement("Padding", 12, 12, 12, 12),
             SetProps(MakeElement("Image", NotificationConfig.Image), {
                 Size = UDim2.new(0, 20, 0, 20),
-                ImageColor3 = Color3.fromRGB(255, 200, 0),
+                ImageColor3 = Color3.fromRGB(255, 180, 60),
                 Name = "Icon"
             }),
             SetProps(MakeElement("Label", NotificationConfig.Name, 15), {
@@ -439,15 +440,15 @@ function GoldeniteLib:MakeNotification(NotificationConfig)
                 Position = UDim2.new(0, 30, 0, 0),
                 Font = Enum.Font.GothamBold,
                 Name = "Title",
-                TextColor3 = Color3.fromRGB(255, 200, 0)
+                TextColor3 = Color3.fromRGB(255, 180, 60)
             }),
-            SetProps(MakeElement("Label", NotificationConfig.Content, 14), {
+            SetProps(MakeElement("Label", NotificationConfig.Content, 13), {
                 Size = UDim2.new(1, 0, 0, 0),
                 Position = UDim2.new(0, 0, 0, 25),
-                Font = Enum.Font.GothamSemibold,
+                Font = Enum.Font.Gotham,
                 Name = "Content",
                 AutomaticSize = Enum.AutomaticSize.Y,
-                TextColor3 = Color3.fromRGB(220, 220, 220),
+                TextColor3 = Color3.fromRGB(200, 200, 215),
                 TextWrapped = true
             })
         })
@@ -470,8 +471,8 @@ function GoldeniteLib:Init()
             if isfile(GoldeniteLib.Folder .. "/" .. game.GameId .. ".txt") then
                 LoadCfg(readfile(GoldeniteLib.Folder .. "/" .. game.GameId .. ".txt"))
                 GoldeniteLib:MakeNotification({
-                    Name = "Configuration Successfully Loaded!",
-                    Content = "Config loaded for " .. game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. ".",
+                    Name = "Config Loaded",
+                    Content = "Successfully loaded configuration for " .. game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. ".",
                     Time = 5
                 })
             end
@@ -487,14 +488,14 @@ function GoldeniteLib:MakeWindow(WindowConfig)
     local UIHidden = false
 
     WindowConfig = WindowConfig or {}
-    WindowConfig.Name = WindowConfig.Name or "Goldenite"
+    WindowConfig.Name = WindowConfig.Name or "NEBULA"
     WindowConfig.ConfigFolder = WindowConfig.ConfigFolder or WindowConfig.Name
     WindowConfig.SaveConfig = WindowConfig.SaveConfig or false
     WindowConfig.HidePremium = WindowConfig.HidePremium or false
     if WindowConfig.IntroEnabled == nil then
         WindowConfig.IntroEnabled = true
     end
-    WindowConfig.IntroText = WindowConfig.IntroText or "Loading the Interface..."
+    WindowConfig.IntroText = WindowConfig.IntroText or "Loading Nebula Interface..."
     WindowConfig.CloseCallback = WindowConfig.CloseCallback or function() end
     WindowConfig.ShowIcon = WindowConfig.ShowIcon or false
     WindowConfig.Icon = WindowConfig.Icon or "rbxassetid://100854465732120"
@@ -508,8 +509,8 @@ function GoldeniteLib:MakeWindow(WindowConfig)
         end
     end
 
-    -- Tab holder frame
-    local TabHolder = AddThemeObject(SetChildren(SetProps(MakeElement("ScrollFrame", Color3.fromRGB(255, 200, 0), 4), {
+    -- Tab holder frame - Darker design
+    local TabHolder = AddThemeObject(SetChildren(SetProps(MakeElement("ScrollFrame", Color3.fromRGB(255, 180, 60), 3), {
         Size = UDim2.new(1, 0, 1, -50)
     }), {
         MakeElement("List"),
@@ -528,7 +529,8 @@ function GoldeniteLib:MakeWindow(WindowConfig)
     }), {
         AddThemeObject(SetProps(MakeElement("Image", "rbxassetid://7072725342"), {
             Position = UDim2.new(0, 9, 0, 6),
-            Size = UDim2.new(0, 18, 0, 18)
+            Size = UDim2.new(0, 18, 0, 18),
+            ImageColor3 = Color3.fromRGB(255, 180, 60)
         }), "Text")
     })
 
@@ -540,7 +542,8 @@ function GoldeniteLib:MakeWindow(WindowConfig)
         AddThemeObject(SetProps(MakeElement("Image", "rbxassetid://7072719338"), {
             Position = UDim2.new(0, 9, 0, 6),
             Size = UDim2.new(0, 18, 0, 18),
-            Name = "Ico"
+            Name = "Ico",
+            ImageColor3 = Color3.fromRGB(255, 180, 60)
         }), "Text")
     })
 
@@ -549,11 +552,11 @@ function GoldeniteLib:MakeWindow(WindowConfig)
         Size = UDim2.new(1, 0, 0, 50)
     })
 
-    -- Side panel with tabs
+    -- Side panel with tabs - Dark glass effect
     local WindowStuff = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 10), {
         Size = UDim2.new(0, 150, 1, -50),
         Position = UDim2.new(0, 0, 0, 50),
-        BackgroundTransparency = 0.2
+        BackgroundTransparency = 0.15
     }), {
         AddThemeObject(SetProps(MakeElement("Frame"), {
             Size = UDim2.new(1, 0, 0, 10),
@@ -574,7 +577,8 @@ function GoldeniteLib:MakeWindow(WindowConfig)
             Position = UDim2.new(0, 0, 1, -50)
         }), {
             AddThemeObject(SetProps(MakeElement("Frame"), {
-                Size = UDim2.new(1, 0, 0, 1)
+                Size = UDim2.new(1, 0, 0, 1),
+                BackgroundColor3 = Color3.fromRGB(255, 180, 60)
             }), "Stroke"),
             AddThemeObject(SetChildren(SetProps(MakeElement("Frame"), {
                 AnchorPoint = Vector2.new(0, 0.5),
@@ -594,7 +598,7 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                 Size = UDim2.new(0, 32, 0, 32),
                 Position = UDim2.new(0, 10, 0.5, 0)
             }), {
-                AddThemeObject(MakeElement("Stroke"), "Stroke"),
+                AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1.5), "Stroke"),
                 MakeElement("Corner", 1)
             }),
             AddThemeObject(SetProps(MakeElement("Label", LocalPlayer.Name:sub(1, -6) .. "****", WindowConfig.HidePremium and 14 or 13), {
@@ -602,13 +606,14 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                 Position = WindowConfig.HidePremium and UDim2.new(0, 50, 0, 19) or UDim2.new(0, 50, 0, 12),
                 Font = Enum.Font.GothamBold,
                 ClipsDescendants = true,
-                TextColor3 = Color3.fromRGB(255, 200, 0)
+                TextColor3 = Color3.fromRGB(255, 180, 60)
             }), "Text"),
-            AddThemeObject(SetProps(MakeElement("Label", "NEBULA", 12), {
-                Size = UDim2.new(1, -60, 0, 12),
-                Position = UDim2.new(0, 50, 1, -25),
+            AddThemeObject(SetProps(MakeElement("Label", "NEBULA DARK", 11), {
+                Size = UDim2.new(1, -60, 0, 11),
+                Position = UDim2.new(0, 50, 1, -22),
                 Visible = not WindowConfig.HidePremium,
-                TextColor3 = Color3.fromRGB(255, 200, 0)
+                TextColor3 = Color3.fromRGB(255, 180, 60),
+                TextTransparency = 0.5
             }), "GoldDark")
         }),
     }), "Second")
@@ -618,42 +623,42 @@ function GoldeniteLib:MakeWindow(WindowConfig)
         Size = UDim2.new(1, -30, 2, 0),
         Position = UDim2.new(0, 25, 0, -24),
         Font = Enum.Font.GothamBlack,
-        TextSize = 20,
-        TextColor3 = Color3.fromRGB(255, 200, 0)
+        TextSize = 22,
+        TextColor3 = Color3.fromRGB(255, 180, 60)
     }), "Text")
 
-    -- Top bar accent line
+    -- Top bar accent line - Neon gold
     local WindowTopBarLine = AddThemeObject(SetProps(MakeElement("Frame"), {
         Size = UDim2.new(1, 0, 0, 2),
         Position = UDim2.new(0, 0, 1, -2),
-        BackgroundColor3 = Color3.fromRGB(255, 200, 0)
+        BackgroundColor3 = Color3.fromRGB(255, 180, 60)
     }), "Stroke")
 
-    -- Main window frame
-    local MainWindow = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 10), {
+    -- Main window frame - Dark glass with blur effect
+    local MainWindow = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 12), {
         Parent = Goldenite,
         Position = UDim2.new(0.5, -307, 0.5, -172),
         Size = UDim2.new(0, 615, 0, 344),
         ClipsDescendants = true,
-        BackgroundTransparency = 0.1
+        BackgroundTransparency = 0.05
     }), {
-        SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(28, 28, 35), 0, 10), {
+        SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(18, 18, 24), 0, 12), {
             Size = UDim2.new(1, 0, 0, 50),
             Name = "TopBar",
             BackgroundTransparency = 0
         }), {
             WindowName,
             WindowTopBarLine,
-            AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 7), {
+            AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(12, 12, 16), 0, 8), {
                 Size = UDim2.new(0, 70, 0, 30),
                 Position = UDim2.new(1, -90, 0, 10),
-                BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+                BackgroundColor3 = Color3.fromRGB(12, 12, 16)
             }), {
-                AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 200, 0)), "Stroke"),
+                AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1.5), "Stroke"),
                 AddThemeObject(SetProps(MakeElement("Frame"), {
                     Size = UDim2.new(0, 2, 1, 0),
                     Position = UDim2.new(0.5, -1, 0, 0),
-                    BackgroundColor3 = Color3.fromRGB(255, 200, 0)
+                    BackgroundColor3 = Color3.fromRGB(255, 180, 60)
                 }), "Stroke"),
                 CloseBtn,
                 MinimizeBtn
@@ -669,7 +674,7 @@ function GoldeniteLib:MakeWindow(WindowConfig)
         local WindowIcon = SetProps(MakeElement("Image", WindowConfig.Icon), {
             Size = UDim2.new(0, 20, 0, 20),
             Position = UDim2.new(0, 25, 0, 16.3),
-            ImageColor3 = Color3.fromRGB(255, 200, 0)
+            ImageColor3 = Color3.fromRGB(255, 180, 60)
         })
         WindowIcon.Parent = MainWindow.TopBar
     end
@@ -682,7 +687,7 @@ function GoldeniteLib:MakeWindow(WindowConfig)
         UIHidden = true
         GoldeniteLib:MakeNotification({
             Name = "Interface Hidden",
-            Content = "Tap <b>RightShift</b> to reopen the interface",
+            Content = "Press <b>RightShift</b> to reopen",
             Time = 5
         })
         WindowConfig.CloseCallback()
@@ -724,12 +729,12 @@ function GoldeniteLib:MakeWindow(WindowConfig)
             Parent = Goldenite,
             AnchorPoint = Vector2.new(0.5, 0.5),
             Position = UDim2.new(0.5, 0, 0.4, 0),
-            Size = UDim2.new(0, 28, 0, 28),
-            ImageColor3 = Color3.fromRGB(255, 200, 0),
+            Size = UDim2.new(0, 32, 0, 32),
+            ImageColor3 = Color3.fromRGB(255, 180, 60),
             ImageTransparency = 1
         })
 
-        local LoadSequenceText = SetProps(MakeElement("Label", WindowConfig.IntroText, 14), {
+        local LoadSequenceText = SetProps(MakeElement("Label", WindowConfig.IntroText, 15), {
             Parent = Goldenite,
             Size = UDim2.new(1, 0, 1, 0),
             AnchorPoint = Vector2.new(0.5, 0.5),
@@ -737,7 +742,7 @@ function GoldeniteLib:MakeWindow(WindowConfig)
             TextXAlignment = Enum.TextXAlignment.Center,
             Font = Enum.Font.GothamBold,
             TextTransparency = 1,
-            TextColor3 = Color3.fromRGB(255, 200, 0)
+            TextColor3 = Color3.fromRGB(255, 180, 60)
         })
 
         TweenService:Create(LoadSequenceLogo, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { ImageTransparency = 0, Position = UDim2.new(0.5, 0, 0.5, 0) }):Play()
@@ -765,21 +770,21 @@ function GoldeniteLib:MakeWindow(WindowConfig)
         TabConfig.PremiumOnly = TabConfig.PremiumOnly or false
 
         local TabFrame = SetChildren(SetProps(MakeElement("Button"), {
-            Size = UDim2.new(1, 0, 0, 30),
+            Size = UDim2.new(1, 0, 0, 34),
             Parent = TabHolder
         }), {
             AddThemeObject(SetProps(MakeElement("Image", TabConfig.Icon), {
                 AnchorPoint = Vector2.new(0, 0.5),
                 Size = UDim2.new(0, 18, 0, 18),
                 Position = UDim2.new(0, 10, 0.5, 0),
-                ImageTransparency = 0.4,
+                ImageTransparency = 0.5,
                 Name = "Ico"
             }), "Text"),
-            AddThemeObject(SetProps(MakeElement("Label", TabConfig.Name, 14), {
+            AddThemeObject(SetProps(MakeElement("Label", TabConfig.Name, 13), {
                 Size = UDim2.new(1, -35, 1, 0),
                 Position = UDim2.new(0, 35, 0, 0),
                 Font = Enum.Font.GothamSemibold,
-                TextTransparency = 0.4,
+                TextTransparency = 0.5,
                 Name = "Title"
             }), "Text")
         })
@@ -789,15 +794,15 @@ function GoldeniteLib:MakeWindow(WindowConfig)
         end
 
         -- Container for tab content
-        local Container = AddThemeObject(SetChildren(SetProps(MakeElement("ScrollFrame", Color3.fromRGB(255, 200, 0), 5), {
+        local Container = AddThemeObject(SetChildren(SetProps(MakeElement("ScrollFrame", Color3.fromRGB(255, 180, 60), 4), {
             Size = UDim2.new(1, -150, 1, -50),
             Position = UDim2.new(0, 150, 0, 50),
             Parent = MainWindow,
             Visible = false,
             Name = "ItemContainer"
         }), {
-            MakeElement("List", 0, 6),
-            MakeElement("Padding", 15, 10, 10, 15)
+            MakeElement("List", 0, 8),
+            MakeElement("Padding", 15, 12, 12, 15)
         }), "Divider")
 
         AddConnection(Container.UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"), function()
@@ -812,8 +817,8 @@ function GoldeniteLib:MakeWindow(WindowConfig)
             TabFrame.Title.Font = Enum.Font.GothamBlack
             Container.Visible = true
 
-            TabFrame.Title.TextColor3 = Color3.fromRGB(255, 200, 0)
-            TabFrame.Ico.ImageColor3 = Color3.fromRGB(255, 200, 0)
+            TabFrame.Title.TextColor3 = Color3.fromRGB(255, 180, 60)
+            TabFrame.Ico.ImageColor3 = Color3.fromRGB(255, 180, 60)
         end
 
         -- Tab click handler
@@ -823,8 +828,8 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                     Tab.Title.Font = Enum.Font.GothamSemibold
                     Tab.Title.TextColor3 = GoldeniteLib.Themes[GoldeniteLib.SelectedTheme].Text
                     Tab.Ico.ImageColor3 = GoldeniteLib.Themes[GoldeniteLib.SelectedTheme].TextDark
-                    TweenService:Create(Tab.Ico, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { ImageTransparency = 0.4 }):Play()
-                    TweenService:Create(Tab.Title, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { TextTransparency = 0.4 }):Play()
+                    TweenService:Create(Tab.Ico, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { ImageTransparency = 0.5 }):Play()
+                    TweenService:Create(Tab.Title, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { TextTransparency = 0.5 }):Play()
                 end
             end
             for _, ItemContainer in next, MainWindow:GetChildren() do
@@ -837,8 +842,8 @@ function GoldeniteLib:MakeWindow(WindowConfig)
             TabFrame.Title.Font = Enum.Font.GothamBlack
             Container.Visible = true
 
-            TabFrame.Title.TextColor3 = Color3.fromRGB(255, 200, 0)
-            TabFrame.Ico.ImageColor3 = Color3.fromRGB(255, 200, 0)
+            TabFrame.Title.TextColor3 = Color3.fromRGB(255, 180, 60)
+            TabFrame.Ico.ImageColor3 = Color3.fromRGB(255, 180, 60)
         end)
 
         -- Element creation functions for tabs
@@ -847,18 +852,18 @@ function GoldeniteLib:MakeWindow(WindowConfig)
             
             -- Creates a simple text label
             function ElementFunction:AddLabel(Text)
-                local LabelFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 5), {
-                    Size = UDim2.new(1, 0, 0, 30),
-                    BackgroundTransparency = 0.7,
+                local LabelFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 6), {
+                    Size = UDim2.new(1, 0, 0, 32),
+                    BackgroundTransparency = 0.85,
                     Parent = ItemParent
                 }), {
-                    AddThemeObject(SetProps(MakeElement("Label", Text, 15), {
-                        Size = UDim2.new(1, -12, 1, 0),
-                        Position = UDim2.new(0, 12, 0, 0),
-                        Font = Enum.Font.GothamBold,
+                    AddThemeObject(SetProps(MakeElement("Label", Text, 14), {
+                        Size = UDim2.new(1, -14, 1, 0),
+                        Position = UDim2.new(0, 14, 0, 0),
+                        Font = Enum.Font.GothamSemibold,
                         Name = "Content"
                     }), "Text"),
-                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 200, 0)), "Stroke")
+                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1, 0.6), "Stroke")
                 }), "Second")
 
                 local LabelFunction = {}
@@ -873,30 +878,30 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                 Text = Text or "Text"
                 Content = Content or "Content"
 
-                local ParagraphFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 5), {
+                local ParagraphFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 6), {
                     Size = UDim2.new(1, 0, 0, 30),
-                    BackgroundTransparency = 0.7,
+                    BackgroundTransparency = 0.85,
                     Parent = ItemParent
                 }), {
-                    AddThemeObject(SetProps(MakeElement("Label", Text, 15), {
-                        Size = UDim2.new(1, -12, 0, 14),
-                        Position = UDim2.new(0, 12, 0, 10),
+                    AddThemeObject(SetProps(MakeElement("Label", Text, 14), {
+                        Size = UDim2.new(1, -14, 0, 14),
+                        Position = UDim2.new(0, 14, 0, 10),
                         Font = Enum.Font.GothamBold,
                         Name = "Title"
                     }), "Text"),
-                    AddThemeObject(SetProps(MakeElement("Label", "", 13), {
-                        Size = UDim2.new(1, -24, 0, 0),
-                        Position = UDim2.new(0, 12, 0, 26),
-                        Font = Enum.Font.GothamSemibold,
+                    AddThemeObject(SetProps(MakeElement("Label", "", 12), {
+                        Size = UDim2.new(1, -28, 0, 0),
+                        Position = UDim2.new(0, 14, 0, 28),
+                        Font = Enum.Font.Gotham,
                         Name = "Content",
                         TextWrapped = true
                     }), "TextDark"),
-                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 200, 0)), "Stroke")
+                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1, 0.6), "Stroke")
                 }), "Second")
 
                 AddConnection(ParagraphFrame.Content:GetPropertyChangedSignal("Text"), function()
-                    ParagraphFrame.Content.Size = UDim2.new(1, -24, 0, ParagraphFrame.Content.TextBounds.Y)
-                    ParagraphFrame.Size = UDim2.new(1, 0, 0, ParagraphFrame.Content.TextBounds.Y + 35)
+                    ParagraphFrame.Content.Size = UDim2.new(1, -28, 0, ParagraphFrame.Content.TextBounds.Y)
+                    ParagraphFrame.Size = UDim2.new(1, 0, 0, ParagraphFrame.Content.TextBounds.Y + 38)
                 end)
 
                 ParagraphFrame.Content.Text = Content
@@ -921,42 +926,42 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                     Size = UDim2.new(1, 0, 1, 0)
                 })
 
-                local ButtonFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 5), {
-                    Size = UDim2.new(1, 0, 0, 33),
+                local ButtonFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 6), {
+                    Size = UDim2.new(1, 0, 0, 36),
                     Parent = ItemParent
                 }), {
-                    AddThemeObject(SetProps(MakeElement("Label", ButtonConfig.Name, 15), {
-                        Size = UDim2.new(1, -12, 1, 0),
-                        Position = UDim2.new(0, 12, 0, 0),
-                        Font = Enum.Font.GothamBold,
+                    AddThemeObject(SetProps(MakeElement("Label", ButtonConfig.Name, 14), {
+                        Size = UDim2.new(1, -14, 1, 0),
+                        Position = UDim2.new(0, 14, 0, 0),
+                        Font = Enum.Font.GothamSemibold,
                         Name = "Content"
                     }), "Text"),
                     AddThemeObject(SetProps(MakeElement("Image", ButtonConfig.Icon), {
-                        Size = UDim2.new(0, 20, 0, 20),
-                        Position = UDim2.new(1, -30, 0, 7),
-                        ImageColor3 = Color3.fromRGB(255, 200, 0)
+                        Size = UDim2.new(0, 18, 0, 18),
+                        Position = UDim2.new(1, -32, 0, 9),
+                        ImageColor3 = Color3.fromRGB(255, 180, 60)
                     }), "TextDark"),
-                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 200, 0)), "Stroke"),
+                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1, 0.6), "Stroke"),
                     Click
                 }), "Second")
 
                 AddConnection(Click.MouseEnter, function()
-                    TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(35, 35, 45) }):Play()
+                    TweenService:Create(ButtonFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(25, 25, 32) }):Play()
                 end)
 
                 AddConnection(Click.MouseLeave, function()
-                    TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = GoldeniteLib.Themes[GoldeniteLib.SelectedTheme].Second }):Play()
+                    TweenService:Create(ButtonFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = GoldeniteLib.Themes[GoldeniteLib.SelectedTheme].Second }):Play()
                 end)
 
                 AddConnection(Click.MouseButton1Up, function()
-                    TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(35, 35, 45) }):Play()
+                    TweenService:Create(ButtonFrame, TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(25, 25, 32) }):Play()
                     spawn(function()
                         ButtonConfig.Callback()
                     end)
                 end)
 
                 AddConnection(Click.MouseButton1Down, function()
-                    TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(40, 40, 50) }):Play()
+                    TweenService:Create(ButtonFrame, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(30, 30, 38) }):Play()
                 end)
 
                 function Button:Set(ButtonText)
@@ -972,7 +977,7 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                 ToggleConfig.Name = ToggleConfig.Name or "Toggle"
                 ToggleConfig.Default = ToggleConfig.Default or false
                 ToggleConfig.Callback = ToggleConfig.Callback or function() end
-                ToggleConfig.Color = ToggleConfig.Color or Color3.fromRGB(255, 200, 0)
+                ToggleConfig.Color = ToggleConfig.Color or Color3.fromRGB(255, 180, 60)
                 ToggleConfig.Flag = ToggleConfig.Flag or nil
                 ToggleConfig.Save = ToggleConfig.Save or false
 
@@ -983,64 +988,63 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                 })
 
                 local ToggleBox = SetChildren(SetProps(MakeElement("RoundFrame", ToggleConfig.Color, 0, 4), {
-                    Size = UDim2.new(0, 24, 0, 24),
+                    Size = UDim2.new(0, 22, 0, 22),
                     Position = UDim2.new(1, -24, 0.5, 0),
                     AnchorPoint = Vector2.new(0.5, 0.5)
                 }), {
-                    SetProps(MakeElement("Stroke", ToggleConfig.Color), {
-                        Name = "Stroke",
-                        Transparency = 0.5
+                    SetProps(MakeElement("Stroke", ToggleConfig.Color, 1, 0.5), {
+                        Name = "Stroke"
                     }),
                     SetProps(MakeElement("Image", "rbxassetid://3944680095"), {
-                        Size = UDim2.new(0, 20, 0, 20),
+                        Size = UDim2.new(0, 18, 0, 18),
                         AnchorPoint = Vector2.new(0.5, 0.5),
                         Position = UDim2.new(0.5, 0, 0.5, 0),
-                        ImageColor3 = Color3.fromRGB(20, 20, 25),
+                        ImageColor3 = Color3.fromRGB(12, 12, 15),
                         Name = "Ico"
                     }),
                 })
 
-                local ToggleFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 5), {
-                    Size = UDim2.new(1, 0, 0, 38),
+                local ToggleFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 6), {
+                    Size = UDim2.new(1, 0, 0, 40),
                     Parent = ItemParent
                 }), {
-                    AddThemeObject(SetProps(MakeElement("Label", ToggleConfig.Name, 15), {
-                        Size = UDim2.new(1, -12, 1, 0),
-                        Position = UDim2.new(0, 12, 0, 0),
-                        Font = Enum.Font.GothamBold,
+                    AddThemeObject(SetProps(MakeElement("Label", ToggleConfig.Name, 14), {
+                        Size = UDim2.new(1, -14, 1, 0),
+                        Position = UDim2.new(0, 14, 0, 0),
+                        Font = Enum.Font.GothamSemibold,
                         Name = "Content"
                     }), "Text"),
-                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 200, 0)), "Stroke"),
+                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1, 0.6), "Stroke"),
                     ToggleBox,
                     Click
                 }), "Second")
 
                 function Toggle:Set(Value)
                     Toggle.Value = Value
-                    TweenService:Create(ToggleBox, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = Toggle.Value and ToggleConfig.Color or GoldeniteLib.Themes.Default.Divider }):Play()
-                    TweenService:Create(ToggleBox.Stroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { Color = Toggle.Value and ToggleConfig.Color or GoldeniteLib.Themes.Default.Stroke }):Play()
-                    TweenService:Create(ToggleBox.Ico, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { ImageTransparency = Toggle.Value and 0 or 1, Size = Toggle.Value and UDim2.new(0, 20, 0, 20) or UDim2.new(0, 8, 0, 8) }):Play()
+                    TweenService:Create(ToggleBox, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = Toggle.Value and ToggleConfig.Color or Color3.fromRGB(25, 25, 32) }):Play()
+                    TweenService:Create(ToggleBox.Stroke, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Color = Toggle.Value and ToggleConfig.Color or Color3.fromRGB(50, 50, 60), Transparency = Toggle.Value and 0 or 0.5 }):Play()
+                    TweenService:Create(ToggleBox.Ico, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { ImageTransparency = Toggle.Value and 0 or 1, Size = Toggle.Value and UDim2.new(0, 18, 0, 18) or UDim2.new(0, 6, 0, 6) }):Play()
                     ToggleConfig.Callback(Toggle.Value)
                 end
 
                 Toggle:Set(Toggle.Value)
 
                 AddConnection(Click.MouseEnter, function()
-                    TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(35, 35, 45) }):Play()
+                    TweenService:Create(ToggleFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(25, 25, 32) }):Play()
                 end)
 
                 AddConnection(Click.MouseLeave, function()
-                    TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = GoldeniteLib.Themes[GoldeniteLib.SelectedTheme].Second }):Play()
+                    TweenService:Create(ToggleFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = GoldeniteLib.Themes[GoldeniteLib.SelectedTheme].Second }):Play()
                 end)
 
                 AddConnection(Click.MouseButton1Up, function()
-                    TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(35, 35, 45) }):Play()
+                    TweenService:Create(ToggleFrame, TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(25, 25, 32) }):Play()
                     SaveCfg(game.GameId)
                     Toggle:Set(not Toggle.Value)
                 end)
 
                 AddConnection(Click.MouseButton1Down, function()
-                    TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(40, 40, 50) }):Play()
+                    TweenService:Create(ToggleFrame, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(30, 30, 38) }):Play()
                 end)
 
                 if ToggleConfig.Flag then
@@ -1059,20 +1063,20 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                 SliderConfig.Default = SliderConfig.Default or 50
                 SliderConfig.Callback = SliderConfig.Callback or function() end
                 SliderConfig.ValueName = SliderConfig.ValueName or ""
-                SliderConfig.Color = SliderConfig.Color or Color3.fromRGB(255, 200, 0)
+                SliderConfig.Color = SliderConfig.Color or Color3.fromRGB(255, 180, 60)
                 SliderConfig.Flag = SliderConfig.Flag or nil
                 SliderConfig.Save = SliderConfig.Save or false
 
                 local Slider = { Value = SliderConfig.Default, Save = SliderConfig.Save }
                 local Dragging = false
 
-                local SliderDrag = SetChildren(SetProps(MakeElement("RoundFrame", SliderConfig.Color, 0, 5), {
+                local SliderDrag = SetChildren(SetProps(MakeElement("RoundFrame", SliderConfig.Color, 0, 4), {
                     Size = UDim2.new(0, 0, 1, 0),
-                    BackgroundTransparency = 0.3,
+                    BackgroundTransparency = 0.2,
                     ClipsDescendants = true
                 }), {
-                    AddThemeObject(SetProps(MakeElement("Label", "value", 13), {
-                        Size = UDim2.new(1, -12, 0, 14),
+                    AddThemeObject(SetProps(MakeElement("Label", "value", 12), {
+                        Size = UDim2.new(1, -12, 0, 12),
                         Position = UDim2.new(0, 12, 0, 6),
                         Font = Enum.Font.GothamBold,
                         Name = "Value",
@@ -1080,33 +1084,33 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                     }), "Text")
                 })
 
-                local SliderBar = SetChildren(SetProps(MakeElement("RoundFrame", SliderConfig.Color, 0, 5), {
-                    Size = UDim2.new(1, -24, 0, 26),
-                    Position = UDim2.new(0, 12, 0, 30),
-                    BackgroundTransparency = 0.9
+                local SliderBar = SetChildren(SetProps(MakeElement("RoundFrame", SliderConfig.Color, 0, 4), {
+                    Size = UDim2.new(1, -24, 0, 28),
+                    Position = UDim2.new(0, 12, 0, 32),
+                    BackgroundTransparency = 0.85
                 }), {
-                    SetProps(MakeElement("Stroke", SliderConfig.Color), {}),
-                    AddThemeObject(SetProps(MakeElement("Label", "value", 13), {
-                        Size = UDim2.new(1, -12, 0, 14),
-                        Position = UDim2.new(0, 12, 0, 6),
+                    SetProps(MakeElement("Stroke", SliderConfig.Color, 1, 0.5), {}),
+                    AddThemeObject(SetProps(MakeElement("Label", "value", 12), {
+                        Size = UDim2.new(1, -12, 0, 12),
+                        Position = UDim2.new(0, 12, 0, 8),
                         Font = Enum.Font.GothamBold,
                         Name = "Value",
-                        TextTransparency = 0.8
+                        TextTransparency = 0.7
                     }), "Text"),
                     SliderDrag
                 })
 
-                local SliderFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 4), {
-                    Size = UDim2.new(1, 0, 0, 65),
+                local SliderFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 6), {
+                    Size = UDim2.new(1, 0, 0, 68),
                     Parent = ItemParent
                 }), {
-                    AddThemeObject(SetProps(MakeElement("Label", SliderConfig.Name, 15), {
-                        Size = UDim2.new(1, -12, 0, 14),
-                        Position = UDim2.new(0, 12, 0, 10),
-                        Font = Enum.Font.GothamBold,
+                    AddThemeObject(SetProps(MakeElement("Label", SliderConfig.Name, 14), {
+                        Size = UDim2.new(1, -14, 0, 14),
+                        Position = UDim2.new(0, 14, 0, 10),
+                        Font = Enum.Font.GothamSemibold,
                         Name = "Content"
                     }), "Text"),
-                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 200, 0)), "Stroke"),
+                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1, 0.6), "Stroke"),
                     SliderBar
                 }), "Second")
 
@@ -1168,12 +1172,12 @@ function GoldeniteLib:MakeWindow(WindowConfig)
 
                 local DropdownList = MakeElement("List")
 
-                local DropdownContainer = AddThemeObject(SetProps(SetChildren(MakeElement("ScrollFrame", Color3.fromRGB(40, 40, 50), 4), {
+                local DropdownContainer = AddThemeObject(SetProps(SetChildren(MakeElement("ScrollFrame", Color3.fromRGB(30, 30, 38), 3), {
                     DropdownList
                 }), {
                     Parent = ItemParent,
-                    Position = UDim2.new(0, 0, 0, 38),
-                    Size = UDim2.new(1, 0, 1, -38),
+                    Position = UDim2.new(0, 0, 0, 40),
+                    Size = UDim2.new(1, 0, 1, -40),
                     ClipsDescendants = true
                 }), "Divider")
 
@@ -1181,28 +1185,28 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                     Size = UDim2.new(1, 0, 1, 0)
                 })
 
-                local DropdownFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 5), {
-                    Size = UDim2.new(1, 0, 0, 38),
+                local DropdownFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 6), {
+                    Size = UDim2.new(1, 0, 0, 40),
                     Parent = ItemParent,
                     ClipsDescendants = true
                 }), {
                     DropdownContainer,
                     SetProps(SetChildren(MakeElement("TFrame"), {
-                        AddThemeObject(SetProps(MakeElement("Label", DropdownConfig.Name, 15), {
-                            Size = UDim2.new(1, -12, 1, 0),
-                            Position = UDim2.new(0, 12, 0, 0),
-                            Font = Enum.Font.GothamBold,
+                        AddThemeObject(SetProps(MakeElement("Label", DropdownConfig.Name, 14), {
+                            Size = UDim2.new(1, -14, 1, 0),
+                            Position = UDim2.new(0, 14, 0, 0),
+                            Font = Enum.Font.GothamSemibold,
                             Name = "Content"
                         }), "Text"),
                         AddThemeObject(SetProps(MakeElement("Image", "rbxassetid://7072706796"), {
-                            Size = UDim2.new(0, 20, 0, 20),
+                            Size = UDim2.new(0, 18, 0, 18),
                             AnchorPoint = Vector2.new(0, 0.5),
-                            Position = UDim2.new(1, -30, 0.5, 0),
-                            ImageColor3 = Color3.fromRGB(255, 200, 0),
+                            Position = UDim2.new(1, -28, 0.5, 0),
+                            ImageColor3 = Color3.fromRGB(255, 180, 60),
                             Name = "Ico"
                         }), "TextDark"),
-                        AddThemeObject(SetProps(MakeElement("Label", "Selected", 13), {
-                            Size = UDim2.new(1, -40, 1, 0),
+                        AddThemeObject(SetProps(MakeElement("Label", "Selected", 12), {
+                            Size = UDim2.new(1, -45, 1, 0),
                             Font = Enum.Font.Gotham,
                             Name = "Selected",
                             TextXAlignment = Enum.TextXAlignment.Right
@@ -1212,15 +1216,15 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                             Position = UDim2.new(0, 0, 1, -1),
                             Name = "Line",
                             Visible = false,
-                            BackgroundColor3 = Color3.fromRGB(255, 200, 0)
+                            BackgroundColor3 = Color3.fromRGB(255, 180, 60)
                         }), "Stroke"),
                         Click
                     }), {
-                        Size = UDim2.new(1, 0, 0, 38),
+                        Size = UDim2.new(1, 0, 0, 40),
                         ClipsDescendants = true,
                         Name = "F"
                     }),
-                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 200, 0)), "Stroke"),
+                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1, 0.6), "Stroke"),
                     MakeElement("Corner")
                 }), "Second")
 
@@ -1230,16 +1234,16 @@ function GoldeniteLib:MakeWindow(WindowConfig)
 
                 local function AddOptions(Options)
                     for _, Option in pairs(Options) do
-                        local OptionBtn = AddThemeObject(SetProps(SetChildren(MakeElement("Button", Color3.fromRGB(40, 40, 50)), {
-                            MakeElement("Corner", 0, 6),
-                            AddThemeObject(SetProps(MakeElement("Label", Option, 13, 0.4), {
-                                Position = UDim2.new(0, 8, 0, 0),
-                                Size = UDim2.new(1, -8, 1, 0),
+                        local OptionBtn = AddThemeObject(SetProps(SetChildren(MakeElement("Button", Color3.fromRGB(25, 25, 32)), {
+                            MakeElement("Corner", 0, 4),
+                            AddThemeObject(SetProps(MakeElement("Label", Option, 12, 0.6), {
+                                Position = UDim2.new(0, 10, 0, 0),
+                                Size = UDim2.new(1, -10, 1, 0),
                                 Name = "Title"
                             }), "Text")
                         }), {
                             Parent = DropdownContainer,
-                            Size = UDim2.new(1, 0, 0, 28),
+                            Size = UDim2.new(1, 0, 0, 30),
                             BackgroundTransparency = 1,
                             ClipsDescendants = true
                         }), "Divider")
@@ -1271,7 +1275,7 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                         DropdownFrame.F.Selected.Text = Dropdown.Value
                         for _, v in pairs(Dropdown.Buttons) do
                             TweenService:Create(v, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundTransparency = 1 }):Play()
-                            TweenService:Create(v.Title, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { TextTransparency = 0.4 }):Play()
+                            TweenService:Create(v.Title, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { TextTransparency = 0.6 }):Play()
                         end
                         return
                     end
@@ -1281,7 +1285,7 @@ function GoldeniteLib:MakeWindow(WindowConfig)
 
                     for _, v in pairs(Dropdown.Buttons) do
                         TweenService:Create(v, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundTransparency = 1 }):Play()
-                        TweenService:Create(v.Title, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { TextTransparency = 0.4 }):Play()
+                        TweenService:Create(v.Title, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { TextTransparency = 0.6 }):Play()
                     end
                     TweenService:Create(Dropdown.Buttons[Value], TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundTransparency = 0 }):Play()
                     TweenService:Create(Dropdown.Buttons[Value].Title, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { TextTransparency = 0 }):Play()
@@ -1293,9 +1297,9 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                     DropdownFrame.F.Line.Visible = Dropdown.Toggled
                     TweenService:Create(DropdownFrame.F.Ico, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Rotation = Dropdown.Toggled and 180 or 0 }):Play()
                     if #Dropdown.Options > MaxElements then
-                        TweenService:Create(DropdownFrame, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Size = Dropdown.Toggled and UDim2.new(1, 0, 0, 38 + (MaxElements * 28)) or UDim2.new(1, 0, 0, 38) }):Play()
+                        TweenService:Create(DropdownFrame, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Size = Dropdown.Toggled and UDim2.new(1, 0, 0, 40 + (MaxElements * 30)) or UDim2.new(1, 0, 0, 40) }):Play()
                     else
-                        TweenService:Create(DropdownFrame, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Size = Dropdown.Toggled and UDim2.new(1, 0, 0, DropdownList.AbsoluteContentSize.Y + 38) or UDim2.new(1, 0, 0, 38) }):Play()
+                        TweenService:Create(DropdownFrame, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Size = Dropdown.Toggled and UDim2.new(1, 0, 0, DropdownList.AbsoluteContentSize.Y + 40) or UDim2.new(1, 0, 0, 40) }):Play()
                     end
                 end)
 
@@ -1323,38 +1327,38 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                     Size = UDim2.new(1, 0, 1, 0)
                 })
 
-                local BindBox = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 200, 0), 0, 4), {
+                local BindBox = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 180, 60), 0, 4), {
                     Size = UDim2.new(0, 24, 0, 24),
-                    Position = UDim2.new(1, -12, 0.5, 0),
+                    Position = UDim2.new(1, -14, 0.5, 0),
                     AnchorPoint = Vector2.new(1, 0.5)
                 }), {
-                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 200, 0)), "Stroke"),
-                    AddThemeObject(SetProps(MakeElement("Label", BindConfig.Name, 14), {
+                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1, 0.5), "Stroke"),
+                    AddThemeObject(SetProps(MakeElement("Label", BindConfig.Name, 13), {
                         Size = UDim2.new(1, 0, 1, 0),
                         Font = Enum.Font.GothamBold,
                         TextXAlignment = Enum.TextXAlignment.Center,
                         Name = "Value",
-                        TextColor3 = Color3.fromRGB(20, 20, 25)
+                        TextColor3 = Color3.fromRGB(12, 12, 15)
                     }), "Text")
                 }), "Main")
 
-                local BindFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 5), {
-                    Size = UDim2.new(1, 0, 0, 38),
+                local BindFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 6), {
+                    Size = UDim2.new(1, 0, 0, 40),
                     Parent = ItemParent
                 }), {
-                    AddThemeObject(SetProps(MakeElement("Label", BindConfig.Name, 15), {
-                        Size = UDim2.new(1, -12, 1, 0),
-                        Position = UDim2.new(0, 12, 0, 0),
-                        Font = Enum.Font.GothamBold,
+                    AddThemeObject(SetProps(MakeElement("Label", BindConfig.Name, 14), {
+                        Size = UDim2.new(1, -14, 1, 0),
+                        Position = UDim2.new(0, 14, 0, 0),
+                        Font = Enum.Font.GothamSemibold,
                         Name = "Content"
                     }), "Text"),
-                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 200, 0)), "Stroke"),
+                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1, 0.6), "Stroke"),
                     BindBox,
                     Click
                 }), "Second")
 
                 AddConnection(BindBox.Value:GetPropertyChangedSignal("Text"), function()
-                    TweenService:Create(BindBox, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { Size = UDim2.new(0, BindBox.Value.TextBounds.X + 16, 0, 24) }):Play()
+                    TweenService:Create(BindBox, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Size = UDim2.new(0, BindBox.Value.TextBounds.X + 16, 0, 24) }):Play()
                 end)
 
                 AddConnection(Click.InputEnded, function(Input)
@@ -1402,19 +1406,19 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                 end)
 
                 AddConnection(Click.MouseEnter, function()
-                    TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(35, 35, 45) }):Play()
+                    TweenService:Create(BindFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(25, 25, 32) }):Play()
                 end)
 
                 AddConnection(Click.MouseLeave, function()
-                    TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = GoldeniteLib.Themes[GoldeniteLib.SelectedTheme].Second }):Play()
+                    TweenService:Create(BindFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = GoldeniteLib.Themes[GoldeniteLib.SelectedTheme].Second }):Play()
                 end)
 
                 AddConnection(Click.MouseButton1Up, function()
-                    TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(35, 35, 45) }):Play()
+                    TweenService:Create(BindFrame, TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(25, 25, 32) }):Play()
                 end)
 
                 AddConnection(Click.MouseButton1Down, function()
-                    TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(40, 40, 50) }):Play()
+                    TweenService:Create(BindFrame, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(30, 30, 38) }):Play()
                 end)
 
                 function Bind:Set(Key)
@@ -1446,41 +1450,41 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                 local TextboxActual = AddThemeObject(Create("TextBox", {
                     Size = UDim2.new(1, 0, 1, 0),
                     BackgroundTransparency = 1,
-                    TextColor3 = Color3.fromRGB(255, 255, 255),
-                    PlaceholderColor3 = Color3.fromRGB(210, 210, 210),
-                    PlaceholderText = "Input",
-                    Font = Enum.Font.GothamSemibold,
+                    TextColor3 = Color3.fromRGB(245, 245, 255),
+                    PlaceholderColor3 = Color3.fromRGB(120, 120, 140),
+                    PlaceholderText = "Enter text...",
+                    Font = Enum.Font.Gotham,
                     TextXAlignment = Enum.TextXAlignment.Center,
-                    TextSize = 14,
+                    TextSize = 13,
                     ClearTextOnFocus = false
                 }), "Text")
 
-                local TextContainer = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 200, 0), 0, 4), {
+                local TextContainer = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 180, 60), 0, 4), {
                     Size = UDim2.new(0, 24, 0, 24),
-                    Position = UDim2.new(1, -12, 0.5, 0),
+                    Position = UDim2.new(1, -14, 0.5, 0),
                     AnchorPoint = Vector2.new(1, 0.5)
                 }), {
-                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 200, 0)), "Stroke"),
+                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1, 0.5), "Stroke"),
                     TextboxActual
                 }), "Main")
 
-                local TextboxFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 5), {
-                    Size = UDim2.new(1, 0, 0, 38),
+                local TextboxFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 6), {
+                    Size = UDim2.new(1, 0, 0, 40),
                     Parent = ItemParent
                 }), {
-                    AddThemeObject(SetProps(MakeElement("Label", TextboxConfig.Name, 15), {
-                        Size = UDim2.new(1, -12, 1, 0),
-                        Position = UDim2.new(0, 12, 0, 0),
-                        Font = Enum.Font.GothamBold,
+                    AddThemeObject(SetProps(MakeElement("Label", TextboxConfig.Name, 14), {
+                        Size = UDim2.new(1, -14, 1, 0),
+                        Position = UDim2.new(0, 14, 0, 0),
+                        Font = Enum.Font.GothamSemibold,
                         Name = "Content"
                     }), "Text"),
-                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 200, 0)), "Stroke"),
+                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1, 0.6), "Stroke"),
                     TextContainer,
                     Click
                 }), "Second")
 
                 AddConnection(TextboxActual:GetPropertyChangedSignal("Text"), function()
-                    TweenService:Create(TextContainer, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { Size = UDim2.new(0, TextboxActual.TextBounds.X + 16, 0, 24) }):Play()
+                    TweenService:Create(TextContainer, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Size = UDim2.new(0, TextboxActual.TextBounds.X + 18, 0, 24) }):Play()
                 end)
 
                 AddConnection(TextboxActual.FocusLost, function()
@@ -1493,20 +1497,20 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                 TextboxActual.Text = TextboxConfig.Default
 
                 AddConnection(Click.MouseEnter, function()
-                    TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(35, 35, 45) }):Play()
+                    TweenService:Create(TextboxFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(25, 25, 32) }):Play()
                 end)
 
                 AddConnection(Click.MouseLeave, function()
-                    TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = GoldeniteLib.Themes[GoldeniteLib.SelectedTheme].Second }):Play()
+                    TweenService:Create(TextboxFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = GoldeniteLib.Themes[GoldeniteLib.SelectedTheme].Second }):Play()
                 end)
 
                 AddConnection(Click.MouseButton1Up, function()
-                    TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(35, 35, 45) }):Play()
+                    TweenService:Create(TextboxFrame, TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(25, 25, 32) }):Play()
                     TextboxActual:CaptureFocus()
                 end)
 
                 AddConnection(Click.MouseButton1Down, function()
-                    TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(40, 40, 50) }):Play()
+                    TweenService:Create(TextboxFrame, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { BackgroundColor3 = Color3.fromRGB(30, 30, 38) }):Play()
                 end)
             end
             
@@ -1514,7 +1518,7 @@ function GoldeniteLib:MakeWindow(WindowConfig)
             function ElementFunction:AddColorpicker(ColorpickerConfig)
                 ColorpickerConfig = ColorpickerConfig or {}
                 ColorpickerConfig.Name = ColorpickerConfig.Name or "Colorpicker"
-                ColorpickerConfig.Default = ColorpickerConfig.Default or Color3.fromRGB(255, 200, 0)
+                ColorpickerConfig.Default = ColorpickerConfig.Default or Color3.fromRGB(255, 180, 60)
                 ColorpickerConfig.Callback = ColorpickerConfig.Callback or function() end
                 ColorpickerConfig.Flag = ColorpickerConfig.Flag or nil
                 ColorpickerConfig.Save = ColorpickerConfig.Save or false
@@ -1523,7 +1527,7 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                 local Colorpicker = { Value = ColorpickerConfig.Default, Toggled = false, Type = "Colorpicker", Save = ColorpickerConfig.Save }
 
                 local ColorSelection = Create("ImageLabel", {
-                    Size = UDim2.new(0, 18, 0, 18),
+                    Size = UDim2.new(0, 16, 0, 16),
                     Position = UDim2.new(select(3, Color3.toHSV(Colorpicker.Value))),
                     ScaleType = Enum.ScaleType.Fit,
                     AnchorPoint = Vector2.new(0.5, 0.5),
@@ -1532,7 +1536,7 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                 })
 
                 local HueSelection = Create("ImageLabel", {
-                    Size = UDim2.new(0, 18, 0, 18),
+                    Size = UDim2.new(0, 16, 0, 16),
                     Position = UDim2.new(0.5, 0, 1 - select(1, Color3.toHSV(Colorpicker.Value))),
                     ScaleType = Enum.ScaleType.Fit,
                     AnchorPoint = Vector2.new(0.5, 0.5),
@@ -1550,8 +1554,8 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                 })
 
                 local Hue = Create("Frame", {
-                    Size = UDim2.new(0, 20, 1, 0),
-                    Position = UDim2.new(1, -20, 0, 0),
+                    Size = UDim2.new(0, 18, 1, 0),
+                    Position = UDim2.new(1, -18, 0, 0),
                     Visible = false
                 }, {
                     Create("UIGradient", { Rotation = 270, Color = ColorSequence.new{ ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 0, 4)), ColorSequenceKeypoint.new(0.20, Color3.fromRGB(234, 255, 0)), ColorSequenceKeypoint.new(0.40, Color3.fromRGB(21, 255, 0)), ColorSequenceKeypoint.new(0.60, Color3.fromRGB(0, 255, 255)), ColorSequenceKeypoint.new(0.80, Color3.fromRGB(0, 17, 255)), ColorSequenceKeypoint.new(0.90, Color3.fromRGB(255, 0, 251)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 0, 4)) } }),
@@ -1571,7 +1575,7 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                         PaddingLeft = UDim.new(0, 35),
                         PaddingRight = UDim.new(0, 35),
                         PaddingBottom = UDim.new(0, 10),
-                        PaddingTop = UDim.new(0, 17)
+                        PaddingTop = UDim.new(0, 15)
                     })
                 })
 
@@ -1579,23 +1583,23 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                     Size = UDim2.new(1, 0, 1, 0)
                 })
 
-                local ColorpickerBox = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 200, 0), 0, 4), {
+                local ColorpickerBox = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 180, 60), 0, 4), {
                     Size = UDim2.new(0, 24, 0, 24),
-                    Position = UDim2.new(1, -12, 0.5, 0),
+                    Position = UDim2.new(1, -14, 0.5, 0),
                     AnchorPoint = Vector2.new(1, 0.5)
                 }), {
-                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 200, 0)), "Stroke")
+                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1, 0.5), "Stroke")
                 }), "Main")
 
-                local ColorpickerFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 5), {
-                    Size = UDim2.new(1, 0, 0, 38),
+                local ColorpickerFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 6), {
+                    Size = UDim2.new(1, 0, 0, 40),
                     Parent = ItemParent
                 }), {
                     SetProps(SetChildren(MakeElement("TFrame"), {
-                        AddThemeObject(SetProps(MakeElement("Label", ColorpickerConfig.Name, 15), {
-                            Size = UDim2.new(1, -12, 1, 0),
-                            Position = UDim2.new(0, 12, 0, 0),
-                            Font = Enum.Font.GothamBold,
+                        AddThemeObject(SetProps(MakeElement("Label", ColorpickerConfig.Name, 14), {
+                            Size = UDim2.new(1, -14, 1, 0),
+                            Position = UDim2.new(0, 14, 0, 0),
+                            Font = Enum.Font.GothamSemibold,
                             Name = "Content"
                         }), "Text"),
                         ColorpickerBox,
@@ -1605,20 +1609,20 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                             Position = UDim2.new(0, 0, 1, -1),
                             Name = "Line",
                             Visible = false,
-                            BackgroundColor3 = Color3.fromRGB(255, 200, 0)
+                            BackgroundColor3 = Color3.fromRGB(255, 180, 60)
                         }), "Stroke"),
                     }), {
-                        Size = UDim2.new(1, 0, 0, 38),
+                        Size = UDim2.new(1, 0, 0, 40),
                         ClipsDescendants = true,
                         Name = "F"
                     }),
                     ColorpickerContainer,
-                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 200, 0)), "Stroke"),
+                    AddThemeObject(MakeElement("Stroke", Color3.fromRGB(255, 180, 60), 1, 0.6), "Stroke"),
                 }), "Second")
 
                 AddConnection(Click.MouseButton1Click, function()
                     Colorpicker.Toggled = not Colorpicker.Toggled
-                    TweenService:Create(ColorpickerFrame, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Size = Colorpicker.Toggled and UDim2.new(1, 0, 0, 148) or UDim2.new(1, 0, 0, 38) }):Play()
+                    TweenService:Create(ColorpickerFrame, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Size = Colorpicker.Toggled and UDim2.new(1, 0, 0, 145) or UDim2.new(1, 0, 0, 40) }):Play()
                     Color.Visible = Colorpicker.Toggled
                     Hue.Visible = Colorpicker.Toggled
                     ColorpickerFrame.F.Line.Visible = Colorpicker.Toggled
@@ -1708,27 +1712,27 @@ function GoldeniteLib:MakeWindow(WindowConfig)
             SectionConfig.Name = SectionConfig.Name or "Section"
 
             local SectionFrame = SetChildren(SetProps(MakeElement("TFrame"), {
-                Size = UDim2.new(1, 0, 0, 26),
+                Size = UDim2.new(1, 0, 0, 28),
                 Parent = Container
             }), {
-                AddThemeObject(SetProps(MakeElement("Label", SectionConfig.Name, 14), {
-                    Size = UDim2.new(1, -12, 0, 16),
-                    Position = UDim2.new(0, 0, 0, 3),
-                    Font = Enum.Font.GothamSemibold,
-                    TextColor3 = Color3.fromRGB(255, 200, 0)
+                AddThemeObject(SetProps(MakeElement("Label", SectionConfig.Name, 13), {
+                    Size = UDim2.new(1, -14, 0, 16),
+                    Position = UDim2.new(0, 0, 0, 4),
+                    Font = Enum.Font.GothamBold,
+                    TextColor3 = Color3.fromRGB(255, 180, 60)
                 }), "TextDark"),
                 SetChildren(SetProps(MakeElement("TFrame"), {
                     AnchorPoint = Vector2.new(0, 0),
-                    Size = UDim2.new(1, 0, 1, -24),
-                    Position = UDim2.new(0, 0, 0, 23),
+                    Size = UDim2.new(1, 0, 1, -26),
+                    Position = UDim2.new(0, 0, 0, 25),
                     Name = "Holder"
                 }), {
-                    MakeElement("List", 0, 6)
+                    MakeElement("List", 0, 8)
                 }),
             })
 
             AddConnection(SectionFrame.Holder.UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"), function()
-                SectionFrame.Size = UDim2.new(1, 0, 0, SectionFrame.Holder.UIListLayout.AbsoluteContentSize.Y + 31)
+                SectionFrame.Size = UDim2.new(1, 0, 0, SectionFrame.Holder.UIListLayout.AbsoluteContentSize.Y + 33)
                 SectionFrame.Holder.Size = UDim2.new(1, 0, 0, SectionFrame.Holder.UIListLayout.AbsoluteContentSize.Y)
             end)
 
@@ -1757,32 +1761,32 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                 AddThemeObject(SetProps(MakeElement("Image", "rbxassetid://3610239960"), {
                     Size = UDim2.new(0, 18, 0, 18),
                     Position = UDim2.new(0, 15, 0, 15),
-                    ImageTransparency = 0.4,
-                    ImageColor3 = Color3.fromRGB(255, 200, 0)
+                    ImageTransparency = 0.5,
+                    ImageColor3 = Color3.fromRGB(255, 180, 60)
                 }), "Text"),
                 AddThemeObject(SetProps(MakeElement("Label", "Unauthorised Access", 14), {
                     Size = UDim2.new(1, -38, 0, 14),
                     Position = UDim2.new(0, 38, 0, 18),
-                    TextTransparency = 0.4,
-                    TextColor3 = Color3.fromRGB(255, 200, 0)
+                    TextTransparency = 0.5,
+                    TextColor3 = Color3.fromRGB(255, 180, 60)
                 }), "Text"),
                 AddThemeObject(SetProps(MakeElement("Image", "rbxassetid://4483345875"), {
                     Size = UDim2.new(0, 56, 0, 56),
                     Position = UDim2.new(0, 84, 0, 110),
-                    ImageColor3 = Color3.fromRGB(255, 200, 0)
+                    ImageColor3 = Color3.fromRGB(255, 180, 60)
                 }), "Text"),
                 AddThemeObject(SetProps(MakeElement("Label", "Premium Features", 14), {
                     Size = UDim2.new(1, -150, 0, 14),
                     Position = UDim2.new(0, 150, 0, 112),
                     Font = Enum.Font.GothamBold,
-                    TextColor3 = Color3.fromRGB(255, 200, 0)
+                    TextColor3 = Color3.fromRGB(255, 180, 60)
                 }), "Text"),
                 AddThemeObject(SetProps(MakeElement("Label", "This part of the script is locked to Goldenite Premium users. Purchase Premium in the Discord server", 12), {
                     Size = UDim2.new(1, -200, 0, 14),
                     Position = UDim2.new(0, 150, 0, 138),
                     TextWrapped = true,
-                    TextTransparency = 0.4,
-                    TextColor3 = Color3.fromRGB(255, 200, 0)
+                    TextTransparency = 0.5,
+                    TextColor3 = Color3.fromRGB(255, 180, 60)
                 }), "Text")
             })
         end
