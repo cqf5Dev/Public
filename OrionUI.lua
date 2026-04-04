@@ -570,7 +570,7 @@ function GoldeniteLib:MakeWindow(WindowConfig)
 				ClipsDescendants = true,
 				TextColor3 = Color3.fromRGB(255, 200, 0)
 			}), "Text"),
-			AddThemeObject(SetProps(MakeElement("Label", "https://discord.gg/Qg2M2Fsk", 12), {
+			AddThemeObject(SetProps(MakeElement("Label", "NEBULA", 12), {
 				Size = UDim2.new(1, -60, 0, 12),
 				Position = UDim2.new(0, 50, 1, -25),
 				Visible = not WindowConfig.HidePremium,
