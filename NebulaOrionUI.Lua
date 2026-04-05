@@ -608,7 +608,7 @@ function GoldeniteLib:MakeWindow(WindowConfig)
                 ClipsDescendants = true,
                 TextColor3 = Color3.fromRGB(255, 180, 60)
             }), "Text"),
-            AddThemeObject(SetProps(MakeElement("Label", "NEBULA DARK", 11), {
+            AddThemeObject(SetProps(MakeElement("Label", ".gg/F7rhgkaX", 11), {
                 Size = UDim2.new(1, -60, 0, 11),
                 Position = UDim2.new(0, 50, 1, -22),
                 Visible = not WindowConfig.HidePremium,
