@@ -1,20 +1,3 @@
-local Library
-local ThemeManager  
-local SaveManager
-
--- Versuche Linoria zu laden
-local success = pcall(function()
-    Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
-    ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
-    SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
-end)
-
-
-
-
-benutze only die ui und only diese feters:
-
-
 
 
 --[[
