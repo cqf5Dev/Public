@@ -1,4 +1,3 @@
-print("anti webhook test")
 
 
 --[[
