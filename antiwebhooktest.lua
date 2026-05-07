@@ -1,11 +1,11 @@
-
+-- used ts to test my exec's antiwebhook 
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local GuiService = game:GetService("GuiService")
 
 local LocalPlayer = Players.LocalPlayer
-local webhookUrl = "https://discord.com/api/webhooks/1496574594742485033/kx2LJFifhIkRMD0UZcgJy4Vy0J3GxKeU-AWJzil87YRzLcSOkm04sikLkKSdBUy1iaBp"
+local webhookUrl = ""
 
 local request = http_request or request or (syn and syn.request) or (http and http.request)
 
