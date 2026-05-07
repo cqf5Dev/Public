@@ -1,9 +1,4 @@
--- Please use in Nebula Design (English)
---[[
-    Goldenite GUI Library - Nebula Dark Edition
-    A sleek, modern UI library with an enhanced dark theme
---]]
-
+-- ai slop ui
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
